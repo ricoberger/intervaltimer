@@ -93,7 +93,7 @@ class TimersRepository with ChangeNotifier {
     }
   }
 
-  Future<void> save() async {
+  Future<void> _save() async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(
@@ -108,19 +108,42 @@ class TimersRepository with ChangeNotifier {
 
   Future<void> addTimer(Timer timer) async {
     _timers.add(timer);
-    await save();
+    await _save();
     notifyListeners();
   }
 
   Future<void> editTimer(int index, Timer timer) async {
     _timers[index] = timer;
-    await save();
+    await _save();
     notifyListeners();
   }
 
   Future<void> deleteTimer(int index) async {
     _timers.removeAt(index);
-    await save();
+    await _save();
+    notifyListeners();
+  }
+
+  Future<void> reorder(int start, int current) async {
+    if (start < current) {
+      int end = current - 1;
+      Timer startItem = _timers[start];
+      int i = 0;
+      int local = start;
+      do {
+        _timers[local] = _timers[++local];
+        i++;
+      } while (i < end - start);
+      _timers[end] = startItem;
+    } else if (start > current) {
+      Timer startItem = _timers[start];
+      for (int i = start; i > current; i--) {
+        _timers[i] = _timers[i - 1];
+      }
+      _timers[current] = startItem;
+    }
+
+    await _save();
     notifyListeners();
   }
 }
