@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
 import 'package:intervaltimer/timers_repository.dart' as tr;
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class TimersDetails extends StatefulWidget {
   const TimersDetails({
@@ -95,12 +96,14 @@ class _TimersDetailsState extends State<TimersDetails> {
   void initState() {
     super.initState();
 
+    WakelockPlus.enable();
     _player = AudioPlayer();
     _seconds = widget.timer.intervals[_intervalIndex].seconds;
   }
 
   @override
   void dispose() {
+    WakelockPlus.disable();
     _player.dispose();
     _timer?.cancel();
 
