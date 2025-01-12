@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:intervaltimer/timers_list.dart';
 import 'package:intervaltimer/timers_repository.dart' as tr;
