@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'dart:async';
-import 'package:intervaltimer/timers_repository.dart' as tr;
+
+import 'package:flutter/material.dart';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+
+import 'package:intervaltimer/timers_repository.dart' as tr;
 
 class TimersDetails extends StatefulWidget {
   const TimersDetails({
@@ -50,6 +53,20 @@ class _TimersDetailsState extends State<TimersDetails> {
     );
   }
 
+  Widget _buildTimerNext() {
+    if (_intervalIndex + 1 < widget.timer.intervals.length) {
+      return Text(
+        'Next: ${widget.timer.intervals[_intervalIndex + 1].name}',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onPrimary,
+          fontSize: 10,
+        ),
+      );
+    }
+
+    return Container();
+  }
+
   Widget _buildTimer() {
     if (_timer == null) {
       return ElevatedButton(
@@ -85,8 +102,10 @@ class _TimersDetailsState extends State<TimersDetails> {
             widget.timer.intervals[_intervalIndex].name,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: 14,
             ),
           ),
+          _buildTimerNext(),
         ],
       );
     }
