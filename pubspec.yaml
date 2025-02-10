@@ -37,11 +37,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-  audioplayers: ^6.1.0
+  audioplayers: ^6.1.1
   flutter_native_splash: ^2.4.4
-  flutter_slidable: ^3.1.2
+  flutter_slidable: ^4.0.0
   provider: ^6.1.2
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.5.1
   uuid: ^4.5.1
   wakelock_plus: ^1.2.10
 
@@ -56,7 +56,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
-  flutter_launcher_icons: ^0.14.2
+  flutter_launcher_icons: ^0.14.3
   import_sorter: ^4.6.0
 
 # For information on the generic Dart part of this file, see the
