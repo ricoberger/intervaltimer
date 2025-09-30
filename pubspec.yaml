@@ -38,7 +38,7 @@ dependencies:
 
   audioplayers: ^6.5.0
   flutter_native_splash: ^2.4.6
-  flutter_slidable: ^4.0.0
+  flutter_slidable: ^4.0.1
   provider: ^6.1.5
   shared_preferences: ^2.5.3
   uuid: ^4.5.1
