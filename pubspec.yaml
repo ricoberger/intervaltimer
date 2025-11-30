@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   audioplayers: ^6.5.1
-  flutter_native_splash: ^2.4.6
+  flutter_native_splash: ^2.4.7
   flutter_slidable: ^4.0.3
   provider: ^6.1.5
   shared_preferences: ^2.5.3
