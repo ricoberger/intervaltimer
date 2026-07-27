@@ -8,10 +8,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:intervaltimer/timers_repository.dart' as tr;
 
 class TimersDetails extends StatefulWidget {
-  const TimersDetails({
-    super.key,
-    required this.timer,
-  });
+  const TimersDetails({super.key, required this.timer});
 
   final tr.Timer timer;
 
@@ -26,31 +23,37 @@ class _TimersDetailsState extends State<TimersDetails> {
   int _seconds = 0;
 
   void _startTimer() {
-    _timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (Timer timer) {
-        if (_seconds == 0) {
-          _player.play(AssetSource('sounds/alarm.wav'));
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) async {
+      if (_seconds == 0) {
+        final audioContext = AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: <AVAudioSessionOptions>{
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+        );
 
-          if (_intervalIndex == widget.timer.intervals.length - 1) {
-            timer.cancel();
-            return;
-          } else {
-            setState(() {
-              _intervalIndex++;
-              _seconds = widget.timer.intervals[_intervalIndex].seconds;
-              timer.cancel();
-            });
+        _player.play(AssetSource('sounds/alarm.wav'), ctx: audioContext);
 
-            _startTimer();
-          }
+        if (_intervalIndex == widget.timer.intervals.length - 1) {
+          timer.cancel();
+          return;
         } else {
           setState(() {
-            _seconds--;
+            _intervalIndex++;
+            _seconds = widget.timer.intervals[_intervalIndex].seconds;
+            timer.cancel();
           });
+
+          _startTimer();
         }
-      },
-    );
+      } else {
+        setState(() {
+          _seconds--;
+        });
+      }
+    });
   }
 
   Widget _buildTimerNext() {
@@ -80,9 +83,7 @@ class _TimersDetailsState extends State<TimersDetails> {
         onPressed: _startTimer,
         child: Text(
           'Start',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           textAlign: TextAlign.center,
         ),
       );
@@ -132,10 +133,7 @@ class _TimersDetailsState extends State<TimersDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(widget.timer.name),
-      ),
+      appBar: AppBar(centerTitle: true, title: Text(widget.timer.name)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -144,9 +142,7 @@ class _TimersDetailsState extends State<TimersDetails> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.3,
-                  child: Center(
-                    child: _buildTimer(),
-                  ),
+                  child: Center(child: _buildTimer()),
                 ),
                 ListView.separated(
                   shrinkWrap: true,
@@ -169,8 +165,9 @@ class _TimersDetailsState extends State<TimersDetails> {
                                 child: Text(
                                   widget.timer.intervals[index].name,
                                   style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -183,8 +180,9 @@ class _TimersDetailsState extends State<TimersDetails> {
                                   ),
                                 ),
                                 style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
                                 ),
                               ),
                             ],
